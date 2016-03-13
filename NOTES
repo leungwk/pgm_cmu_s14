@@ -1,0 +1,44 @@
+; -*- mode: org;-*-
+
+* binary image denoising
+
+For single stage schemes, energy-based denoising performed best.
+Overall though, the combination of energy-based denoising, and a
+large-threshold windowed vote filter, performed best.
+
+** windowed vote filters
+
+The idea behind the window filter "box-2-18/24" is that, where there is
+"near" unanimity (ex. 75%), it is safer to change a pixel (ex. "solid"
+regions), but where contentious, error is more likely (ex. edges).
+
+Judging from the output, box-2-18/24 is more for fine-tuning, as
+applying it alone still leaves speckles, compared to applying it after
+applying energy-based denoising. The other window filters can also be
+applied in a similar fashion, but they (ex. (energy,diamond-2)) miss
+some fine details, such as where there are many alternating edges
+(ex. the spiral tip).
+
+** energy function parameters
+
+The energy function (proportional to the probability) is
+\[
+    E(Z=z,X=x) = h\sum_i z_i -\beta \sum_{(i,j)} z_iz_j -\nu\sum_i z_ix_i
+\]
+where x is the visible pixel, and z is the hidden pixel value, and h,
+\beta, and \nu are parameters. This model captures individual nodes,
+adjacent pixels edge potentials, and visible/hidden edge potentials.
+Window filters only consider adjacent pixels.
+
+#+begin_example
+h = 0.0 # bias term
+beta = 2.0 # neighbours are twice as "good" (informative?) compared to if a pixel were flipped
+nu = 1.0
+#+end_example
+
+** problems with edit distance as error measure
+
+In some cases, a lower edit distance might not correspond to a "better" restored image:
+- same edit distance (ie. error), but mal-pixels clumped together stand out more
+- there could be more flipped pixels along edges than a speckled image,
+  but the latter is more noticeable despite having a lower error
