@@ -42,3 +42,13 @@ In some cases, a lower edit distance might not correspond to a "better" restored
 - same edit distance (ie. error), but mal-pixels clumped together stand out more
 - there could be more flipped pixels along edges than a speckled image,
   but the latter is more noticeable despite having a lower error
+* variational inference in latent dirichlet allocation (LDA)
+
+As \alpha increases, =num_iter= goes down (and faster), and several
+individuals' assignments to an ancesteral population goes from index 1
+to 3, in fact 24/100. (As alpha increases in magnitude, there are 1 to
+8 to 15 changes).
+
+This could mean it is harder to overwrite assignments where the
+hyperprior gives sparse distributions (ie. when \alpha \lt 1), but less
+so when it gives mostly uniform distributions.
