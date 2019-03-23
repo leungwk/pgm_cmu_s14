@@ -65,3 +65,23 @@ with "w" the weighted scores given for each set.
 =len(df_results)=: 102, but =df_results['w'] ~= 38.5=, so
 the threshold for random is 50%+a bit,
 but it seems significant nonetheless.
+
+
+
+In this causal discovery, we assume the structure is either
+X -> Y or X <- Y
+that is, no confounding (common cause) and no selection bias (common effect).
+
+Why can one of the causal directions be identified?
+When p(x,y) satisfies an identifiable bivariate ANM X \to Y,
+though a special distribution for X, and Y given X, could satisfy the ANM while
+Y causes X, this would be a more complex model than X causes Y, and so
+the reasoning is a special case of Occam's razor.
+
+From Lemma 7, p(x,y) satisfies a bivariate ANM X \to Y iff the residuals
+are finite and independent of X. A fitted model that correctly gets the
+underlying function would leave residuals independent of X. If it were
+the wrong fit, there would still be a relation left. In practice
+(algorithm 1), one can test independence of the estimated residuals Y
+-E[Y|X] and X (and vice versa), then select the direction of cause based
+on which is more independent.
