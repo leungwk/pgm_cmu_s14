@@ -53,6 +53,35 @@ This could mean it is harder to overwrite assignments where the
 hyperprior gives sparse distributions (ie. when \alpha \lt 1), but less
 so when it gives mostly uniform distributions.
 
+
+
+From Blei et al, /Latent dirichlet allocation/, JMLR, 3(Jan):993-1022, 2003.
+
+Looking at Figure 5 (left), the posterior of the hidden variables \theta
+(topic mixture) and z (N topics) given the document w (sequence of N
+words), ie. p(\theta,z|w,\alpha,\beta), is intractable for exact
+inference, so instead a variation approximation can be used.
+
+The model in Figure 5 (right) decouples \theta and \beta by dropping
+edges between \theta, z, and w (and w nodes all together), giving a
+variational distribution q(\theta,z|\gamma,\phi), where \gamma,\phi are
+the free variation parameters, which depend on w. The distribution is to
+be a lower bound on the true posterior, so this translates to the
+optimization problem of finding the minimum KL divergence between the
+variation distribution and the true posterior. (See A.3 for the
+derivation).
+
+The update equations (6) and (7) are as a follows.
+\gamma_i is updated to the hyperparameter \alpha plus the total probability
+of latent topic i, which is marginalized over the n words. This further
+concentrates the Dirchlet distribution on those topics with higher
+probability. \phi_{ni} is a multinomial update following Bayes's
+theorem.
+
+In Figure 6 (algorithm), \phi is initialized to be uniform across words
+per topic. \gamma is set to be uniform across each topic plus the
+hyperparameter \alpha.
+
 * causal discovery with a bivariate additive noise model (ANM)
 
 Using Algorithm 1 and HSIC from
