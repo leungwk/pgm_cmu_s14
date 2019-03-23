@@ -52,3 +52,16 @@ to 3, in fact 24/100. (As alpha increases in magnitude, there are 1 to
 This could mean it is harder to overwrite assignments where the
 hyperprior gives sparse distributions (ie. when \alpha \lt 1), but less
 so when it gives mostly uniform distributions.
+
+* causal discovery with a bivariate additive noise model (ANM)
+
+Using Algorithm 1 and HSIC from
+Mooij et al. /Distinguishing Cause from Effect Using Observational Data: Methods and Benchmarks/, JMLR, 17(32):1-102, 2016.
+
+Considering pairs (two columns sets) only, and a 60/40 split, the match rate
+: p_match, p_match_w = (0.5588235294117647, 0.5911621153361609)
+with "w" the weighted scores given for each set.
+
+=len(df_results)=: 102, but =df_results['w'] ~= 38.5=, so
+the threshold for random is 50%+a bit,
+but it seems significant nonetheless.
